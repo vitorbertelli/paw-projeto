@@ -1,1 +1,47 @@
-<p>despesa works!</p>
+<div class="form-section">
+  <h1>Registrar Despesa</h1>
+
+  <form [formGroup]="form">
+    <div class="form-group">
+      <div class="row">
+        <label for="descricao">Descrição:</label>
+        <input id="descricao" type="text" placeholder="Digite uma descrição"
+          formControlName="descricao" [ngClass]="useErrorStyle('descricao')"
+        >
+      </div>
+      <app-error-control [hasError]="isInvalid('descricao')" errorMsg="A descrição é obrigatório."></app-error-control>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <label for="valor">Valor:</label>
+        <input id="valor" type="number" placeholder="Digite o valor da receita"
+          formControlName="valor" [ngClass]="useErrorStyle('valor')"
+        >
+      </div>
+      <app-error-control [hasError]="isInvalid('valor')" errorMsg="O valor é obrigatório."></app-error-control>
+    </div>
+    
+    <div class="form-group">
+      <div class="row">
+        <label for="data">Data:</label>
+        <input id="data" type="date" formControlName="data"
+          formControlName="data" [ngClass]="useErrorStyle('data')"
+        >
+      </div>
+      <app-error-control [hasError]="isInvalid('data')" errorMsg="A data é obrigatório."></app-error-control>
+    </div>
+
+    <button (click)="onSubmit()" type="submit" class="btn">Registrar</button>
+  </form>
+
+  <h1 style="margin-top: 40px;">Todas Despesas Registradas</h1>
+  
+  <section style="display: flex; flex-wrap: wrap; gap: 10px; padding: 0 40px;">
+    @for (despesa of this.despesas; track $index){
+      <app-card type="despesa" [item]="despesa" (delete)="this.onDelete($event)"></app-card>
+    } @empty {
+      Não há despesas registradas.
+    }
+  </section>
+</div>

@@ -1,0 +1,19 @@
+<section class="card">
+  @if(this.type == "despesa") {
+    <img class="card-image" src="assets/negativo.png" alt="positivo">
+  } @else {
+    <img class="card-image" src="assets/positivo.png" alt="positivo">
+  }
+  
+  <div class="card-content">
+    <div>
+      <p class="descricao">{{ item.descricao }}</p>
+      <p class="data">{{ item.data }}</p>
+    </div>
+    <p class="valor" [ngClass]="setStyle()">R$ {{ item.valor }}</p>
+  </div> 
+
+    <button class="card-button" (click)="onDelete()">
+      <img class="button-image" src="assets/excluir.png" alt="excluir">
+    </button>
+</section>

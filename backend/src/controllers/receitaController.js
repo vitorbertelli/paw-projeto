@@ -3,10 +3,13 @@ import Receita from './../models/receitaModel.js';
 class ReceitaController {
 
   static criarReceitas = async (req, res) => {
+
     try {
-      const receita = req.body;
-      await Receita.create(receita);
-      res.status(201).json(receita);
+      const receita = await Receita.create(req.body);
+      res.status(201).json({
+        status: 'success',
+        receita
+      });
     } catch (err) {
       res.status(400).json(err.message);
     }

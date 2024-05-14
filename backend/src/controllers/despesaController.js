@@ -4,9 +4,11 @@ class DespesaController {
 
   static criarDespesa = async (req, res) => {
     try {
-      const despesa = req.body;
-      await Despesa.create(despesa);
-      res.status(201).json(despesa);
+      const despesa = await Despesa.create(req.body);
+      res.status(201).json({
+        status: 'success',
+        despesa
+      });
     } catch (err) {
       res.status(400).json(err.message);
     }
