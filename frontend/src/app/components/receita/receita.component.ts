@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
 import { ReceitaService } from '../../services/receita.service';
 import { Receita } from '../../models/receita';
 import { CardComponent } from '../card/card.component';
 import { ErrorControlComponent } from '../error-control/error-control.component';
+import { MoneyMaskDirective } from '../../utils/money-mask.directive';
 
 @Component({
   selector: 'app-receita',
@@ -14,7 +14,8 @@ import { ErrorControlComponent } from '../error-control/error-control.component'
     ReactiveFormsModule,
     CardComponent,
     CommonModule,
-    ErrorControlComponent
+    ErrorControlComponent,
+    MoneyMaskDirective
   ],
   providers: [
     ReceitaService
@@ -48,26 +49,36 @@ export class ReceitaComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Descricao: " + this.form.get("descricao")?.value);
+    console.log("Descrição: " + this.form.get("descricao")?.value);
     console.log("Valor: " + this.form.get("valor")?.value);
     console.log("Data: " + this.form.get("data")?.value);
-
+  
     this.form.markAllAsTouched();
-    
-    if(this.form.valid) {
-      const receitaModel: Receita = new Receita(
-        this.form.get("descricao")?.value, this.form.get("valor")?.value, this.form.get("data")?.value
-      );
+  
+    if (this.form.valid) {
+      const descricao = this.form.get("descricao")?.value;
+      const valorBruto = this.form.get("valor")?.value as string;
+      const data = this.form.get("data")?.value;
+  
+      const valorLimpo = this.limparValorMonetario(valorBruto);
+  
+      const receitaModel = new Receita(descricao, valorLimpo, data);
   
       this.receitaService.addReceita(receitaModel).subscribe({
+        next: (response) => {
+        },
         error: (error) => {
-          console.log(`$== !!Error (subscribe): - ${error.info_extra} ==`);
-          console.log(error);
+          console.log(`Erro ao adicionar receita: ${error.message}`);
         }
       });
-
+  
       this.form.reset();
     }
+  }
+  
+  private limparValorMonetario(valor: string): number {
+    const valorNumerico = valor.replace(/[R$\.,\s]/g, '').replace(',', '.');
+    return parseFloat(valorNumerico) / 100;
   }
 
   isInvalid(field: string): boolean {

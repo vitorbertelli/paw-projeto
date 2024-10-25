@@ -3,22 +3,7 @@ import mongoose from 'mongoose';
 const receitaSchema = new mongoose.Schema({
   descricao: {
     type: String,
-    required: [true, 'Receita deve conter uma descricao.'],
-    validate: {
-      validator: async function(val) {
-
-        const anoAtual = new Date(this.data).getFullYear();
-        const mesAtual = new Date(this.data).getMonth();
-        const busca = { descricao: val, data: { $gte: new Date(anoAtual, mesAtual, 1), $lt: new Date(anoAtual, mesAtual + 1, 1) } };
-        const receita = await Receita.find(busca)
-
-        if (receita.length > 0) {
-          return false;
-        }
-        return true;
-      },
-      message: 'O campo descricão é único por mês'
-    }
+    required: [true, 'Receita deve conter uma descricao.']
   },
   valor: {
     type: Number,
@@ -26,7 +11,7 @@ const receitaSchema = new mongoose.Schema({
   },
   data: {
     type: Date,
-    default: Date.now,
+    required: [true, 'Receita deve conter uma data.']
   }
 });
 

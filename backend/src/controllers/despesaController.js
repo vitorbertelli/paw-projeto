@@ -16,34 +16,8 @@ class DespesaController {
 
   static listarDespesas = async (req, res) => {
     try {
-      if (req.query.descricao === undefined) {
-        const despesas = await Despesa.find();
-        res.status(200).json(despesas);
-      } else {
-        const descricao = req.query.descricao;
-        const despesa = await Despesa.find({ "descricao": descricao });
-        res.status(200).json(despesa);
-      }
-    } catch (err) {
-      res.status(400).json(err.message);
-    }
-  };
-
-  static listarDespesaPorId = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const despesa = await Despesa.findById(id);
-      res.status(200).json(despesa);
-    } catch (err) {
-      res.status(400).json(err.message);
-    }
-  };
-
-  static atulizarDespesa = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const despesa = await Despesa.findByIdAndUpdate(id, { $set: req.body });
-      res.status(200).json(despesa);
+      const despesas = await Despesa.find();
+      res.status(200).json(despesas);
     } catch (err) {
       res.status(400).json(err.message);
     }

@@ -10,8 +10,6 @@ router
 
 router
   .route('/despesas/:id')
-  .get(DespesaController.listarDespesaPorId)
-  .patch(DespesaController.atulizarDespesa)
   .delete(DespesaController.deletarDespesa)
 
 router

@@ -10,8 +10,6 @@ router
 
 router
   .route('/receitas/:id')
-  .get(ReceitaController.listarReceitaPorId)
-  .patch(ReceitaController.atulizarReceita)
   .delete(ReceitaController.deletarReceita)
 
 router

@@ -7,15 +7,9 @@ class ResumoController {
       const { ano, mes} = req.params;
       const url = "http://localhost:3000";
 
-      const options = {
-        headers: {
-          Authorization: req.headers.authorization
-        }
-      };
-
       const [requestReceita, requestDespesa] = await Promise.all([
-        fetch(`${url}/receitas/${ano}/${mes}`, options),
-        fetch(`${url}/despesas/${ano}/${mes}`, options)
+        fetch(`${url}/receitas/${ano}/${mes}`),
+        fetch(`${url}/despesas/${ano}/${mes}`)
       ]);
 
       const receita = await requestReceita.json();
@@ -29,7 +23,7 @@ class ResumoController {
       res.status(200).json({
         "Receitas": sumReceita,
         "Despesas": -sumDespesa,
-        "Resumo mensal": resumoMensal
+        "ResumoMensal": resumoMensal
       });
     } catch (err) {
       res.status(400).json(err.message);

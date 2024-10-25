@@ -30,12 +30,18 @@ export class CardComponent {
   constructor(private receitaService: ReceitaService, private despesaService: DespesaService) { }
 
   onDelete() {
-    if(this.type == "despesa") {
-      this.despesaService.deleteDespesa(this.item);
+    const confirmation = confirm('Você tem certeza que deseja deletar este item?');
+  
+    if (confirmation) {
+      if(this.type == "despesa") {
+        this.despesaService.deleteDespesa(this.item);
+      } else {
+        this.receitaService.deleteReceita(this.item);
+      }
+      this.delete.emit(this.item);
     } else {
-      this.receitaService.deleteReceita(this.item);
+      console.log('Deleção cancelada pelo usuário.');
     }
-    this.delete.emit(this.item);
   }
 
   setStyle() {

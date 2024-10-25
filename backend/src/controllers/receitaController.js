@@ -3,7 +3,6 @@ import Receita from './../models/receitaModel.js';
 class ReceitaController {
 
   static criarReceitas = async (req, res) => {
-
     try {
       const receita = await Receita.create(req.body);
       res.status(201).json({
@@ -17,35 +16,8 @@ class ReceitaController {
 
   static listarReceitas = async (req, res) => {
     try {
-      if (req.query.descricao === undefined) {
-        const receitas = await Receita.find();
-        res.status(200).json(receitas);
-      } else {
-        const descricao = req.query.descricao;
-        const receita = await Receita.find({ "descricao": descricao });
-        res.status(200).json(receita);
-      }
-    } catch (err) {
-      res.status(400).json(err.message);
-    }
-  };
-
-  static listarReceitaPorId = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const receita = await Receita.findById(id);
-      res.status(200).json(receita);
-    } catch (err) {
-      res.status(400).json(err.message);
-    }
-  };
-
-
-  static atulizarReceita = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const receita = await Receita.findByIdAndUpdate(id, { $set: req.body });
-      res.status(200).json(receita);
+      const receitas = await Receita.find();
+      res.status(200).json(receitas);
     } catch (err) {
       res.status(400).json(err.message);
     }

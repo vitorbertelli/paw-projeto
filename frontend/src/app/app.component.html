@@ -1,3 +1,14 @@
-<app-navbar></app-navbar>
+<app-navbar *ngIf="showNavbar; else notFound"></app-navbar>
 
 <router-outlet />
+
+<ng-template #notFound>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0; font-family: Arial, sans-serif;">
+      <div style="text-align: center;">
+        <h1 style="font-size: 48px; color: #333;">404</h1>
+        <p style="font-size: 24px; color: #666;">Not Found</p>
+        <p style="font-size: 16px; color: #888;">Desculpe, a página que você está procurando não foi encontrada.</p>
+      </div>
+    </div>
+  </ng-template>
+  
